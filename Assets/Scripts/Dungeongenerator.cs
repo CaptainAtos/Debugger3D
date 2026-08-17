@@ -83,7 +83,7 @@ public class DungeonGenerator : MonoBehaviour
 
                 if (RoomOverlaps(newRoom))
                 {
-                    Destroy(newRoom);
+                    DestroyImmediate(newRoom);
                 }
                 else
                 {

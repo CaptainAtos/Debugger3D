@@ -8,13 +8,15 @@ public class BugAI : MonoBehaviour
 
     public Transform player;
     public float chaseRange = 8f;
-    public float attackRange = 2f;
+    public float attackRange = 1f;
     public float attackCooldown = 1.5f;
 
     public float patrolRadius = 10f;
     public float patrolWaitTime = 2f;
     public float swarmRadius = 6f;
     public float swarmPullStrength = 0.5f;
+
+    public Animator animator;
 
     private NavMeshAgent agent;
     private float waitTimer = 0f;
@@ -25,6 +27,9 @@ public class BugAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         spawnPosition = transform.position;
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
 
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -44,6 +49,9 @@ public class BugAI : MonoBehaviour
     void Update()
     {
         float distToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (animator != null)
+            animator.SetBool("IsMoving", agent.velocity.sqrMagnitude > 0.01f);
 
         switch (currentState)
         {
@@ -108,5 +116,7 @@ public class BugAI : MonoBehaviour
     void Attack()
     {
         Debug.Log(gameObject.name + " attacks player!");
+        if (animator != null)
+            animator.SetTrigger("Attack");
     }
 }

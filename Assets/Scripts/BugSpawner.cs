@@ -31,8 +31,13 @@ public class BugSpawner : MonoBehaviour
 
     void TrySpawn()
     {
+        Debug.Log("BugSpawner: TrySpawn called");
+
         if (BugSwarmManager.Instance != null && BugSwarmManager.Instance.bugs.Count >= maxBugs)
+        {
+            Debug.Log("BugSpawner: skipped, maxBugs reached");
             return;
+        }
 
         Vector3 randomDir = Random.insideUnitSphere;
         randomDir.y = 0f;
@@ -44,7 +49,12 @@ public class BugSpawner : MonoBehaviour
         NavMeshHit hit;
         if (NavMesh.SamplePosition(candidatePos, out hit, 5f, NavMesh.AllAreas))
         {
+            Debug.Log("BugSpawner: spawning bug at " + hit.position);
             Instantiate(bugPrefab, hit.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.Log("BugSpawner: NavMesh.SamplePosition FAILED near " + candidatePos);
         }
     }
 }
