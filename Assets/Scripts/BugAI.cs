@@ -3,24 +3,33 @@ using UnityEngine.AI;
 
 public class BugAI : MonoBehaviour
 {
-    public enum State { Patrol, Chase, Attack }
-    public State currentState = State.Patrol;
+    public enum State { Fall, Patrol, Chase, Attack }
 
-    public Transform player;
-    public float chaseRange = 8f;
-    public float attackRange = 1f;
-    public float attackCooldown = 1.5f;
+    [SerializeField] private State currentState = State.Patrol;
+    [SerializeField] private Animator animator;
 
-    public float patrolRadius = 10f;
-    public float patrolWaitTime = 2f;
-    public float swarmRadius = 6f;
-    public float swarmPullStrength = 0.5f;
+    [SerializeField] private float chaseRange = 8f;
+    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private float loseChaseMultiplier = 1.5f;
 
-    public Animator animator;
+    [SerializeField] private float patrolRadius = 10f;
+    [SerializeField] private float patrolWaitTime = 2f;
+    [SerializeField] private float swarmRadius = 6f;
+    [SerializeField] private float swarmPullStrength = 0.5f;
 
+    [SerializeField] private float fallSpeed = 5f;
+
+    private float patrolPointReachedDistance = 0.5f;
+    private float maxFallDistance = 30f;
+    private float groundCheckDistance = 0.5f;
+    private float movementThreshold = 0.01f;
+
+    private Transform player;
     private NavMeshAgent agent;
     private float waitTimer = 0f;
     private float attackTimer = 0f;
+    private float fallDistance = 0f;
     private Vector3 spawnPosition;
 
     void Start()
@@ -31,13 +40,13 @@ public class BugAI : MonoBehaviour
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
-        if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         if (BugSwarmManager.Instance != null)
             BugSwarmManager.Instance.Register(this);
 
-        PickNewPatrolPoint();
+        agent.enabled = false;
+        currentState = State.Fall;
     }
 
     void OnDestroy()
@@ -48,24 +57,31 @@ public class BugAI : MonoBehaviour
 
     void Update()
     {
-        float distToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (animator != null)
-            animator.SetBool("IsMoving", agent.velocity.sqrMagnitude > 0.01f);
+        if (animator != null && agent.enabled)
+        {
+            bool isMoving = agent.velocity.sqrMagnitude > movementThreshold;
+            animator.SetBool("IsMoving", isMoving);
+        }
 
         switch (currentState)
         {
+            case State.Fall:
+                Fall();
+                break;
+
             case State.Patrol:
                 Patrol();
-                if (distToPlayer <= chaseRange)
+                if (distanceToPlayer <= chaseRange)
                     currentState = State.Chase;
                 break;
 
             case State.Chase:
                 agent.SetDestination(player.position);
-                if (distToPlayer <= attackRange)
+                if (distanceToPlayer <= attackRange)
                     currentState = State.Attack;
-                else if (distToPlayer > chaseRange * 1.5f)
+                else if (distanceToPlayer > chaseRange * loseChaseMultiplier)
                     currentState = State.Patrol;
                 break;
 
@@ -77,15 +93,43 @@ public class BugAI : MonoBehaviour
                     Attack();
                     attackTimer = 0f;
                 }
-                if (distToPlayer > attackRange)
+                if (distanceToPlayer > attackRange)
                     currentState = State.Chase;
                 break;
         }
     }
 
+    void Fall()
+    {
+        transform.position += Vector3.down * fallSpeed * Time.deltaTime;
+        fallDistance += fallSpeed * Time.deltaTime;
+
+        bool foundGround = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+
+        if (foundGround)
+        {
+            LandAndStartPatrol();
+        }
+        else if (fallDistance > maxFallDistance)
+        {
+            Debug.Log(gameObject.name + ": kein Boden gefunden, breche Fallen ab");
+            LandAndStartPatrol();
+        }
+    }
+
+    void LandAndStartPatrol()
+    {
+        agent.enabled = true;
+        agent.Warp(transform.position);
+        currentState = State.Patrol;
+        PickNewPatrolPoint();
+    }
+
     void Patrol()
     {
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        bool reachedDestination = !agent.pathPending && agent.remainingDistance < patrolPointReachedDistance;
+
+        if (reachedDestination)
         {
             waitTimer += Time.deltaTime;
             if (waitTimer >= patrolWaitTime)
@@ -99,15 +143,21 @@ public class BugAI : MonoBehaviour
     void PickNewPatrolPoint()
     {
         Vector3 center = spawnPosition;
+
         if (BugSwarmManager.Instance != null)
-            center = Vector3.Lerp(spawnPosition, BugSwarmManager.Instance.GetSwarmCenter(this, swarmRadius), swarmPullStrength);
+        {
+            Vector3 swarmCenter = BugSwarmManager.Instance.GetSwarmCenter(this, swarmRadius);
+            center = Vector3.Lerp(spawnPosition, swarmCenter, swarmPullStrength);
+        }
 
         Vector3 randomOffset = Random.insideUnitSphere * patrolRadius;
         randomOffset.y = 0f;
         Vector3 targetPoint = center + randomOffset;
 
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(targetPoint, out hit, patrolRadius, NavMesh.AllAreas))
+        bool foundPoint = NavMesh.SamplePosition(targetPoint, out hit, patrolRadius, NavMesh.AllAreas);
+
+        if (foundPoint)
         {
             agent.SetDestination(hit.position);
         }
