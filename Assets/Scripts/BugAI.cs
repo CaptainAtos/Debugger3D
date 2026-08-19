@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BugAI : MonoBehaviour
+public class BugAI : MonoBehaviour, IDamageable, IKillable
 {
     public enum State { Fall, Patrol, Chase, Attack }
 
     [SerializeField] private State currentState = State.Patrol;
     [SerializeField] private Animator animator;
 
+    [SerializeField] private float maxHealth = 100;
+                     private float currentHealth;
     [SerializeField] private float chaseRange = 8f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1.5f;
@@ -34,6 +36,8 @@ public class BugAI : MonoBehaviour
 
     void Start()
     {
+        currentHealth = maxHealth;
+        
         agent = GetComponent<NavMeshAgent>();
         spawnPosition = transform.position;
 
@@ -168,5 +172,17 @@ public class BugAI : MonoBehaviour
         Debug.Log(gameObject.name + " attacks player!");
         if (animator != null)
             animator.SetTrigger("Attack");
+    }
+
+    public void TakeDamage(float dmg) 
+    {
+        currentHealth -= dmg;
+        if (currentHealth <= 0)
+            Die();
+    }
+
+    public void Die() 
+    {
+            Destroy(gameObject);
     }
 }
