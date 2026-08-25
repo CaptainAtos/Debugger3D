@@ -4,6 +4,7 @@ using Unity.AI.Navigation;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    public GameObject startRoom;
     public GameObject roomEmpty;
     public GameObject gangH;
     public GameObject gangV;
@@ -37,7 +38,7 @@ public class DungeonGenerator : MonoBehaviour
         allRooms.Add(wallEast);
         allRooms.Add(wallWest);
 
-        GameObject start = Instantiate(roomEmpty, Vector3.zero, Quaternion.identity);
+        GameObject start = Instantiate(startRoom, Vector3.zero, Quaternion.identity);
         AddRoom(start);
 
         BuildDungeon();

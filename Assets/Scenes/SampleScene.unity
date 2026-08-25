@@ -728,6 +728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a243b62d69b8e45b4917db0a2b770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startRoom: {fileID: 2105365516081239035, guid: 80f7fe6b03387ca4793c701083d11649, type: 3}
   roomEmpty: {fileID: 6051276799847318980, guid: 787748ea9fb74a44e812a9727720cc72, type: 3}
   gangH: {fileID: 3087431464187340302, guid: fd9d7b564d311e04e95b2a4f04db5264, type: 3}
   gangV: {fileID: 2385229705322547710, guid: cc957bf252ba2f54ab50760312f228ee, type: 3}
