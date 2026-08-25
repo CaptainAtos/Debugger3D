@@ -739,7 +739,7 @@ MonoBehaviour:
   wallSouth: {fileID: 4085861346501935998, guid: a9939140a61d4e04b9ac635a3af2229f, type: 3}
   wallEast: {fileID: 7949108226553918290, guid: d6c2cf1b6d7f55c44b37ffbdef2e1d0d, type: 3}
   wallWest: {fileID: 6372596043558089325, guid: 708aca4e326195a43943035633aad665, type: 3}
-  wallPrefab: {fileID: 4476321035352832073, guid: cef3a0c320a4b2a43933395d0afffd6e, type: 3}
+  wallPrefab: {fileID: 8505737946178050911, guid: cef3a0c320a4b2a43933395d0afffd6e, type: 3}
   maxRooms: 100
 --- !u!4 &787639667
 Transform:
