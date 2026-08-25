@@ -6,7 +6,7 @@ The core system is procedural dungeon generation — every playthrough builds a 
 Status: In active development — student project for the SAE Institute Games Programming portfolio.
 
 Premise:
-You're sent into the server basement to fix a critical outage. 
+You're an overworked IT specialist, and after a long day of work you fall asleep. The fever dream begins: you're sent into the server basement to fix a critical outage.
 The door locks behind you, the lights cut out, and you have to work your way through the generated corridors, reactivating servers one by one before the lights — and the door — come back on.
 
 Core Features:
