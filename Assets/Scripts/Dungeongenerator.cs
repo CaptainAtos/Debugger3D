@@ -144,6 +144,9 @@ public class DungeonGenerator : MonoBehaviour
 
     void BuildWalls()
     {
+        Vector3 pivotFix = new Vector3(5f, 0f, 0f);
+        float wallInset = 0.15f;
+
         for (int i = 0; i < placedRooms.Count; i++)
         {
             GameObject room = placedRooms[i];
@@ -153,13 +156,28 @@ public class DungeonGenerator : MonoBehaviour
                 if (child.name.Contains("Connector") && !IsConnected(child))
                 {
                     Quaternion rot = Quaternion.identity;
-                    if (child.name.Contains("East") || child.name.Contains("West"))
+                    if (child.name.Contains("North"))
+                    {
+                        rot = Quaternion.Euler(0, 0, 0);
+                    }
+                    else if (child.name.Contains("South"))
+                    {
+                        rot = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (child.name.Contains("East"))
                     {
                         rot = Quaternion.Euler(0, 90, 0);
                     }
-                    Vector3 wallPos = child.position;
-                    wallPos.y = 2.5f;
-                    Instantiate(wallPrefab, wallPos, rot);
+                    else if (child.name.Contains("West"))
+                    {
+                        rot = Quaternion.Euler(0, -90, 0);
+                    }
+
+                    Vector3 intoRoom = (room.transform.position - child.position).normalized;
+                    Vector3 wallPos = child.position + intoRoom * wallInset;
+                    wallPos.y = 0f;
+
+                    Instantiate(wallPrefab, wallPos + rot * pivotFix, rot);
                 }
             }
         }
