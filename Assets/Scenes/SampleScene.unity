@@ -1006,6 +1006,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7827112409098040917, guid: 64ee9ed5a5aae6844b865f5affb24623, type: 3}
   m_PrefabInstance: {fileID: 9147634806787900233}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &1593581716 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3778874680337720092, guid: 64ee9ed5a5aae6844b865f5affb24623, type: 3}
+  m_PrefabInstance: {fileID: 9147634806787900233}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9147634806787900233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1014,6 +1019,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3829490347579220183, guid: 64ee9ed5a5aae6844b865f5affb24623, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1593581716}
+    - target: {fileID: 6618535769410152299, guid: 64ee9ed5a5aae6844b865f5affb24623, type: 3}
+      propertyPath: sprayEffect
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7568465249543586159, guid: 64ee9ed5a5aae6844b865f5affb24623, type: 3}
       propertyPath: m_Name
       value: Player

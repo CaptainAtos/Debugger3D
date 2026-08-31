@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float interactRange = 3f;
+
     public float moveSpeed = 8f;
     public float sprintSpeed = 14f;
     public float gravity = -20f;
@@ -16,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        TryInteract();
+
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputZ = Input.GetAxisRaw("Vertical");
 
@@ -41,5 +47,22 @@ public class PlayerMovement : MonoBehaviour
         finalMove.y = verticalVelocity;
 
         controller.Move(finalMove * Time.deltaTime);
+    }
+
+    private void TryInteract()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
+            {
+                IInteractable interactable = hit.collider.transform.root.GetComponentInChildren<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
+                }
+            }
+        }
     }
 }
