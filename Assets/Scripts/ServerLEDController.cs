@@ -12,7 +12,7 @@ public class ServerLEDController : MonoBehaviour, IInteractable
     private Renderer[] leds;
     private bool isActive = false;
 
-    public bool IsInteractable => true;
+    public bool IsInteractable => !isActive;
 
     public event System.Action OnActivated;
 

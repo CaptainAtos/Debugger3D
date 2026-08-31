@@ -10,6 +10,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
 
     [SerializeField] private float maxHealth = 100;
                      private float currentHealth;
+    [SerializeField] private float damage = 10f;
     [SerializeField] private float chaseRange = 8f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1.5f;
@@ -34,11 +35,13 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
     private float fallDistance = 0f;
     private Vector3 spawnPosition;
 
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
     void Start()
     {
         currentHealth = maxHealth;
-        
-        agent = GetComponent<NavMeshAgent>();
         spawnPosition = transform.position;
 
         if (animator == null)
@@ -169,9 +172,12 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
 
     void Attack()
     {
-        Debug.Log(gameObject.name + " attacks player!");
         if (animator != null)
             animator.SetTrigger("Attack");
+
+        IDamageable playerDamageable = player.GetComponent<IDamageable>();
+        if (playerDamageable != null)
+            playerDamageable.TakeDamage(damage);
     }
 
     public void TakeDamage(float dmg) 
@@ -183,6 +189,16 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
 
     public void Die() 
     {
+        animator.SetTrigger("Die");
             Destroy(gameObject);
+    }
+
+    public void Initialize(BugDifficultyTier tier)
+    {
+        maxHealth = tier.health;
+        currentHealth = maxHealth;
+        damage = tier.damage;
+        agent.speed = tier.speed;
+        transform.localScale = Vector3.one * tier.scale;
     }
 }

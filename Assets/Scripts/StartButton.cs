@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class StartButton : MonoBehaviour, IInteractable
 {
-    [SerializeField] private EnergyFieldDoor door;
+    [SerializeField] private RoundManager roundManager;
 
     public bool IsInteractable => true;
 
     public bool Interact()
     {
-        door.Unlock();
+        roundManager.StartGame();
         return true;
     }
 }

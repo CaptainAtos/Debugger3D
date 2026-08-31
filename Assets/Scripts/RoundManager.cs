@@ -1,19 +1,25 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-    [SerializeField] private List<Renderer> lamps; // 3 Lampen über der Tür, in Reihenfolge
-    [SerializeField] private Material lampRedMaterial;
-    [SerializeField] private Material lampGreenMaterial;
+    [SerializeField] private LampDisplay lampDisplay;
 
-    [SerializeField] private ServerSpawner serverSpawner;   
-    [SerializeField] private EnergyFieldDoor door;          
-    [SerializeField] private SelfDefenseSystem defenseSystem; // Runde-3-Fluchtsequenz -- noch zu bauen
+    [SerializeField] private ServerSpawner serverSpawner;
+    [SerializeField] private BugSpawner bugSpawner;
+    [SerializeField] private EnergyFieldDoor door;
+    [SerializeField] private SelfDefenseSystem defenseSystem;
+
+    [SerializeField] private PowerResetSwitch powerSwitch;
 
     private int currentRound = 1;
     private int serversActiveThisRound = 0;
     private int serversRequiredThisRound = 3;
+
+    public void StartGame()
+    {
+        door.Unlock();
+        serverSpawner.SpawnServers(serversRequiredThisRound);
+    }
 
     public void OnServerActivated()
     {
@@ -31,12 +37,14 @@ public class RoundManager : MonoBehaviour
     private void TriggerPowerOutage()
     {
         door.Lock();
-        // Licht flackert, Bugs droppen 
+        bugSpawner.StartSpawning(currentRound - 1);
+        powerSwitch.ResetLever();
+        // TODO: Licht-Flacker-Effekt
     }
 
     public void OnSwitchPressed()
     {
-        lamps[currentRound - 1].sharedMaterial = lampGreenMaterial;
+        lampDisplay.SetRoundComplete(currentRound - 1);
 
         if (currentRound < 3)
         {
@@ -47,7 +55,7 @@ public class RoundManager : MonoBehaviour
         }
         else
         {
-            door.Unlock();
+            door.Unlock(); // TODO: stops Bug-Spawner activates SelfDefenseSystem.Trigger()
         }
     }
 }

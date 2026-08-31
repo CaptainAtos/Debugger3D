@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: c7afa35e8ab7a7849b7b1112be92e7db
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - lampRedMaterial: {fileID: 2100000, guid: 080f9967cecff8e44ae8f0c6739b4d56, type: 2}
+  - lampGreenMaterial: {fileID: 2100000, guid: 7c78db138e315514cb9f46350ec2c833, type: 2}
+  - serverSpawner: {instanceID: 0}
+  - door: {instanceID: 0}
+  - defenseSystem: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
