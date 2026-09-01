@@ -41,6 +41,15 @@ public class DungeonGenerator : MonoBehaviour
         GameObject start = Instantiate(startRoom, Vector3.zero, Quaternion.identity);
         AddRoom(start);
 
+        EnergyFieldDoor spawnedDoor = start.GetComponentInChildren<EnergyFieldDoor>(true);
+        LampDisplay spawnedLampDisplay = start.GetComponentInChildren<LampDisplay>(true);
+        PowerResetSwitch spawnedPowerSwitch = start.GetComponentInChildren<PowerResetSwitch>(true);
+        RoundManager roundManager = FindFirstObjectByType<RoundManager>();
+        if (roundManager != null)
+        {
+            roundManager.Initialize(spawnedDoor, spawnedLampDisplay, spawnedPowerSwitch);
+        }
+
         BuildDungeon();
         BuildWalls();
 

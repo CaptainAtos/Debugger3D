@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3864622820216669144}
   - component: {fileID: 8334638362242620538}
   - component: {fileID: 768594182690411259}
+  - component: {fileID: -3472399616019371163}
   m_Layer: 0
   m_Name: Lamp
   m_TagString: Untagged
@@ -201,6 +202,24 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &-3472399616019371163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2693075475748222608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be8dfaa92dae49469c2dcf8159427a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lampLight: {fileID: 8334638362242620538}
+  lampRenderer: {fileID: 0}
+  litMaterial: {fileID: 2100000, guid: 1367ff92e2782e24e9173b36d4b9e3ee, type: 2}
+  unlitMaterial: {fileID: 2100000, guid: 919a33cfb67f0784495e0494ec79a4dc, type: 2}
+  minFlickerInterval: 0.05
+  maxFlickerInterval: 0.3
 --- !u!1 &5452244237955297189
 GameObject:
   m_ObjectHideFlags: 0

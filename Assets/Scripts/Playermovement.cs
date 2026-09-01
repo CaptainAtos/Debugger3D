@@ -57,8 +57,12 @@ public class PlayerMovement : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
             {
-                IInteractable interactable = hit.collider.transform.root.GetComponentInChildren<IInteractable>();
-                if (interactable != null)
+                IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
+                if (interactable == null)
+                {
+                    interactable = hit.collider.GetComponentInChildren<IInteractable>();
+                }
+                if (interactable != null && interactable.IsInteractable)
                 {
                     interactable.Interact();
                 }

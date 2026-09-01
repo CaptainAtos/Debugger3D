@@ -21,10 +21,11 @@ public class ServerSpawner : MonoBehaviour
             GameObject chosenPoint = available[randomIndex];
             available.RemoveAt(randomIndex);
 
-            GameObject serverInstance = Instantiate(serverPrefab, chosenPoint.transform.position, chosenPoint.transform.rotation);
+            Quaternion spawnRotation = chosenPoint.transform.rotation * Quaternion.Euler(0f, 180f, 0f);
+            GameObject serverInstance = Instantiate(serverPrefab, chosenPoint.transform.position, spawnRotation);
             activeServers.Add(serverInstance);
 
-            ServerLEDController led = serverInstance.GetComponent<ServerLEDController>();
+            ServerLEDController led = serverInstance.GetComponentInChildren<ServerLEDController>();
             if (led != null)
             {
                 led.OnActivated += HandleServerActivated;

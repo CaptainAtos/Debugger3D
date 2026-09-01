@@ -8,11 +8,16 @@ public class PowerResetSwitch : MonoBehaviour, IInteractable
     [SerializeField] private float activatedAngle = 135f;
 
     private bool isActivated = false;
+    private bool canBeUsed = false;
 
-    public bool IsInteractable => !isActivated;
+    public bool IsInteractable => canBeUsed && !isActivated;
 
     void Start()
     {
+        if (roundManager == null)
+        {
+            roundManager = FindFirstObjectByType<RoundManager>();
+        }
         SetLeverAngle(restAngle);
     }
 
@@ -27,12 +32,13 @@ public class PowerResetSwitch : MonoBehaviour, IInteractable
     public void ResetLever()
     {
         isActivated = false;
+        canBeUsed = true;
         SetLeverAngle(restAngle);
     }
 
     private void SetLeverAngle(float angle)
     {
         Vector3 currentEuler = lever.localEulerAngles;
-        lever.localEulerAngles = new Vector3(angle, currentEuler.y, currentEuler.z);
+        lever.localEulerAngles = new Vector3(currentEuler.x, currentEuler.y, angle);
     }
 }

@@ -5506,6 +5506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f79aa9e583a84044b9286452ead398ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 3778874680337720092}
+  interactRange: 3
   moveSpeed: 8
   sprintSpeed: 14
   gravity: -20

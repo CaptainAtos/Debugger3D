@@ -15,6 +15,18 @@ public class RoundManager : MonoBehaviour
     private int serversActiveThisRound = 0;
     private int serversRequiredThisRound = 3;
 
+    public void Initialize(EnergyFieldDoor spawnedDoor, LampDisplay spawnedLampDisplay, PowerResetSwitch spawnedPowerSwitch)
+    {
+        door = spawnedDoor;
+        lampDisplay = spawnedLampDisplay;
+        powerSwitch = spawnedPowerSwitch;
+
+        if (powerSwitch == null)
+        {
+            powerSwitch = FindFirstObjectByType<PowerResetSwitch>();
+        }
+    }
+
     public void StartGame()
     {
         door.Unlock();
@@ -27,10 +39,7 @@ public class RoundManager : MonoBehaviour
 
         if (serversActiveThisRound >= serversRequiredThisRound)
         {
-            if (currentRound < 3)
-                TriggerPowerOutage();
-            else
-                defenseSystem.Trigger();
+            TriggerPowerOutage();
         }
     }
 
@@ -39,11 +48,22 @@ public class RoundManager : MonoBehaviour
         door.Lock();
         bugSpawner.StartSpawning(currentRound - 1);
         powerSwitch.ResetLever();
-        // TODO: Licht-Flacker-Effekt
+        CeilingLampFlicker.FlickerAll();
+
+        if (StartRoomExitTrigger.Instance != null)
+        {
+            StartRoomExitTrigger.Instance.Arm();
+        }
+
+        if (currentRound == 3)
+        {
+            defenseSystem.Trigger();
+        }
     }
 
     public void OnSwitchPressed()
     {
+        CeilingLampFlicker.StopAll();
         lampDisplay.SetRoundComplete(currentRound - 1);
 
         if (currentRound < 3)
@@ -55,7 +75,7 @@ public class RoundManager : MonoBehaviour
         }
         else
         {
-            door.Unlock(); // TODO: stops Bug-Spawner activates SelfDefenseSystem.Trigger()
+            door.Unlock();
         }
     }
 }
