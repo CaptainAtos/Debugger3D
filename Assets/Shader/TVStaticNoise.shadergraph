@@ -14,6 +14,9 @@
         },
         {
             "m_Id": "e0a47d4e66444999b377a15b0c6d2d9c"
+        },
+        {
+            "m_Id": "167f1f9e3e7d4caa90f6a6195f15258b"
         }
     ],
     "m_Keywords": [],
@@ -213,8 +216,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": -182.3999481201172,
-            "y": -1165.6002197265625
+            "x": -1164.800048828125,
+            "y": -1290.400146484375
         },
         "m_Blocks": [
             {
@@ -230,8 +233,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": -275.9999694824219,
-            "y": -747.2000732421875
+            "x": -1185.60009765625,
+            "y": -1057.5999755859375
         },
         "m_Blocks": [
             {
@@ -349,6 +352,36 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "167f1f9e3e7d4caa90f6a6195f15258b",
+    "m_Guid": {
+        "m_GuidSerialized": "4f1ade11-9b77-447d-9806-ab82aba92fa8"
+    },
+    "m_Name": "Texture2D",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Texture2D",
+    "m_DefaultReferenceName": "_Texture2D",
+    "m_OverrideReferenceName": "_MainTex",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "",
+        "m_Guid": ""
+    },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
+    "m_Modifiable": true,
+    "m_DefaultType": 0
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.NormalMaterialSlot",
     "m_ObjectId": "18e2f139019549e18424100c12477373",
     "m_Id": 0,
@@ -430,7 +463,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.0,
+    "m_Value": 50.0,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -540,10 +573,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -704.0000610351563,
-            "y": -770.3999633789063,
-            "width": 208.00006103515626,
-            "height": 325.6000061035156
+            "x": -1331.2001953125,
+            "y": -900.800048828125,
+            "width": 208.0,
+            "height": 325.5999755859375
         }
     },
     "m_Slots": [
@@ -644,10 +677,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -703.2000732421875,
-            "y": -1215.2000732421875,
-            "width": 208.00021362304688,
-            "height": 334.40008544921877
+            "x": -1588.0001220703125,
+            "y": -1273.60009765625,
+            "width": 208.0,
+            "height": 334.4000244140625
         }
     },
     "m_Slots": [
@@ -816,7 +849,7 @@
         "r": 0.0,
         "g": 0.0,
         "b": 0.0,
-        "a": 0.0
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 0
@@ -922,10 +955,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1909.5997314453125,
-            "y": -427.9999084472656,
-            "width": 207.9998779296875,
-            "height": 301.5999450683594
+            "x": -1847.199951171875,
+            "y": -743.2000122070313,
+            "width": 208.0,
+            "height": 301.6000061035156
         }
     },
     "m_Slots": [
@@ -1011,10 +1044,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2182.400146484375,
-            "y": -1120.0001220703125,
+            "x": -2179.999755859375,
+            "y": -1114.39990234375,
             "width": 120.800048828125,
-            "height": 33.60009765625
+            "height": 33.5999755859375
         }
     },
     "m_Slots": [
@@ -1084,7 +1117,7 @@
     "m_AlphaMode": 0,
     "m_RenderFace": 2,
     "m_AlphaClip": false,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_DisableTint": false,
     "m_AdditionalMotionVectorMode": 0,
@@ -1115,10 +1148,10 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "a": 0.0
+        "r": 0.05010319501161575,
+        "g": 0.8117647171020508,
+        "b": 0.856603741645813,
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 0
@@ -1402,10 +1435,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1370.4000244140625,
-            "y": -819.2000122070313,
+            "x": -1573.5999755859375,
+            "y": -884.0,
             "width": 208.0,
-            "height": 301.5999755859375
+            "height": 301.60003662109377
         }
     },
     "m_Slots": [
@@ -1450,6 +1483,9 @@
         },
         {
             "m_Id": "e0a47d4e66444999b377a15b0c6d2d9c"
+        },
+        {
+            "m_Id": "167f1f9e3e7d4caa90f6a6195f15258b"
         }
     ]
 }
@@ -1474,7 +1510,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.0,
+    "m_Value": 0.5,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -1578,10 +1614,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1818.4000244140625,
-            "y": -787.199951171875,
+            "x": -1868.7999267578125,
+            "y": -936.0,
             "width": 124.0,
-            "height": 172.800048828125
+            "height": 172.79998779296876
         }
     },
     "m_Slots": [
