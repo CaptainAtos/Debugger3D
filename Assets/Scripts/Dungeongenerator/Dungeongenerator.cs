@@ -19,12 +19,27 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject wallPrefab;
 
     public int maxRooms = 20;
+    public int Seed;
 
     private List<GameObject> allRooms = new List<GameObject>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private List<Transform> openConnectors = new List<Transform>();
+    private List<GameObject> placedWalls = new List<GameObject>();
 
     void Start()
+    {
+        GameManager(Seed);
+    }
+    public void GameManager(int seed) 
+    {
+        ClearDungeon();
+        AddRooms();
+        InitStartRoom();
+        BuildDungeon(seed);
+        BuildWalls();
+        BuildNavMesh();
+    }
+    void AddRooms() 
     {
         allRooms.Add(roomEmpty);
         allRooms.Add(gangH);
@@ -37,7 +52,10 @@ public class DungeonGenerator : MonoBehaviour
         allRooms.Add(wallSouth);
         allRooms.Add(wallEast);
         allRooms.Add(wallWest);
+    }
 
+    public void InitStartRoom()
+    {
         GameObject start = Instantiate(startRoom, Vector3.zero, Quaternion.identity);
         AddRoom(start);
 
@@ -45,20 +63,17 @@ public class DungeonGenerator : MonoBehaviour
         LampDisplay spawnedLampDisplay = start.GetComponentInChildren<LampDisplay>(true);
         PowerResetSwitch spawnedPowerSwitch = start.GetComponentInChildren<PowerResetSwitch>(true);
         RoundManager roundManager = FindFirstObjectByType<RoundManager>();
+        
         if (roundManager != null)
         {
             roundManager.Initialize(spawnedDoor, spawnedLampDisplay, spawnedPowerSwitch);
         }
-
-        BuildDungeon();
-        BuildWalls();
-
-        NavMeshSurface surface = GetComponent<NavMeshSurface>();
-        surface.BuildNavMesh();
     }
 
-    void BuildDungeon()
+
+    public void BuildDungeon(int seed)
     {
+        Random.InitState(seed);
         while (openConnectors.Count > 0 && placedRooms.Count < maxRooms)
         {
             Transform conn = openConnectors[0];
@@ -102,6 +117,54 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    void BuildWalls()
+    {
+        Vector3 pivotFix = new Vector3(5f, 0f, 0f);
+        float wallInset = 0.15f;
+
+        for (int i = 0; i < placedRooms.Count; i++)
+        {
+            GameObject room = placedRooms[i];
+            for (int j = 0; j < room.transform.childCount; j++)
+            {
+                Transform child = room.transform.GetChild(j);
+                if (child.name.Contains("Connector") && !IsConnected(child))
+                {
+                    Quaternion rot = Quaternion.identity;
+                    if (child.name.Contains("North"))
+                    {
+                        rot = Quaternion.Euler(0, 0, 0);
+                    }
+                    else if (child.name.Contains("South"))
+                    {
+                        rot = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (child.name.Contains("East"))
+                    {
+                        rot = Quaternion.Euler(0, 90, 0);
+                    }
+                    else if (child.name.Contains("West"))
+                    {
+                        rot = Quaternion.Euler(0, -90, 0);
+                    }
+
+                    Vector3 intoRoom = (room.transform.position - child.position).normalized;
+                    Vector3 wallPos = child.position + intoRoom * wallInset;
+                    wallPos.y = 0f;
+
+                    GameObject wall = Instantiate(wallPrefab, wallPos + rot * pivotFix, rot);
+                    placedWalls.Add(wall);
+                }
+            }
+        }
+    }
+    void BuildNavMesh()
+    {
+        NavMeshSurface surface = GetComponent<NavMeshSurface>();
+        surface.BuildNavMesh();
     }
 
     void AddRoom(GameObject room)
@@ -152,46 +215,6 @@ public class DungeonGenerator : MonoBehaviour
         return count > 1;
     }
 
-    void BuildWalls()
-    {
-        Vector3 pivotFix = new Vector3(5f, 0f, 0f);
-        float wallInset = 0.15f;
-
-        for (int i = 0; i < placedRooms.Count; i++)
-        {
-            GameObject room = placedRooms[i];
-            for (int j = 0; j < room.transform.childCount; j++)
-            {
-                Transform child = room.transform.GetChild(j);
-                if (child.name.Contains("Connector") && !IsConnected(child))
-                {
-                    Quaternion rot = Quaternion.identity;
-                    if (child.name.Contains("North"))
-                    {
-                        rot = Quaternion.Euler(0, 0, 0);
-                    }
-                    else if (child.name.Contains("South"))
-                    {
-                        rot = Quaternion.Euler(0, 180, 0);
-                    }
-                    else if (child.name.Contains("East"))
-                    {
-                        rot = Quaternion.Euler(0, 90, 0);
-                    }
-                    else if (child.name.Contains("West"))
-                    {
-                        rot = Quaternion.Euler(0, -90, 0);
-                    }
-
-                    Vector3 intoRoom = (room.transform.position - child.position).normalized;
-                    Vector3 wallPos = child.position + intoRoom * wallInset;
-                    wallPos.y = 0f;
-
-                    Instantiate(wallPrefab, wallPos + rot * pivotFix, rot);
-                }
-            }
-        }
-    }
 
     Transform GetConnector(GameObject room, string direction)
     {
@@ -233,5 +256,23 @@ public class DungeonGenerator : MonoBehaviour
         float x = Mathf.Round(pos.x * 10f) / 10f;
         float z = Mathf.Round(pos.z * 10f) / 10f;
         return new Vector2(x, z);
+    }
+
+    void ClearDungeon()
+    {
+        for (int i = 0; i < placedRooms.Count; i++)
+        {
+            DestroyImmediate(placedRooms[i]);
+        }
+        placedRooms.Clear();
+
+        for (int i = 0; i < placedWalls.Count; i++)
+        {
+            DestroyImmediate(placedWalls[i]);
+        }
+        placedWalls.Clear();
+
+        openConnectors.Clear();
+        allRooms.Clear();
     }
 }

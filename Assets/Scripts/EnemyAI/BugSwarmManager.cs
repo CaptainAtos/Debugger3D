@@ -40,7 +40,8 @@ public class BugSwarmManager : MonoBehaviour
         int count = 0;
         for (int i = 0; i < bugs.Count; i++)
         {
-            if (bugs[i] == self) continue;
+            if (bugs[i] == self)
+                continue;
             float dist = Vector3.Distance(bugs[i].transform.position, self.transform.position);
             if (dist <= radius)
             {

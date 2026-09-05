@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 2450151618244724115}
   - component: {fileID: 8230397794691720960}
   - component: {fileID: 4006696298016932272}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Decke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
