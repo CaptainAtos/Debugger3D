@@ -17,6 +17,7 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject wallEast;
     public GameObject wallWest;
     public GameObject wallPrefab;
+    public Transform dungeonParent;
 
     public int maxRooms = 20;
     public int Seed;
@@ -57,6 +58,7 @@ public class DungeonGenerator : MonoBehaviour
     public void InitStartRoom()
     {
         GameObject start = Instantiate(startRoom, Vector3.zero, Quaternion.identity);
+        start.transform.SetParent(dungeonParent);
         AddRoom(start);
 
         EnergyFieldDoor spawnedDoor = start.GetComponentInChildren<EnergyFieldDoor>(true);
@@ -101,6 +103,7 @@ public class DungeonGenerator : MonoBehaviour
                 GameObject prefab = fitting[randomIndex];
 
                 GameObject newRoom = Instantiate(prefab);
+                newRoom.transform.SetParent(dungeonParent);
                 Transform match = GetConnector(newRoom, needed);
 
                 Vector3 move = conn.position - match.position;
@@ -156,6 +159,7 @@ public class DungeonGenerator : MonoBehaviour
                     wallPos.y = 0f;
 
                     GameObject wall = Instantiate(wallPrefab, wallPos + rot * pivotFix, rot);
+                    wall.transform.SetParent(dungeonParent);
                     placedWalls.Add(wall);
                 }
             }
@@ -258,20 +262,18 @@ public class DungeonGenerator : MonoBehaviour
         return new Vector2(x, z);
     }
 
-    void ClearDungeon()
+    public void ClearDungeon()
     {
-        for (int i = 0; i < placedRooms.Count; i++)
+        for (int i = dungeonParent.childCount - 1; i >= 0; i--)
         {
-            DestroyImmediate(placedRooms[i]);
+            DestroyImmediate(dungeonParent.GetChild(i).gameObject);
         }
+
+        NavMeshSurface surface = GetComponent<NavMeshSurface>();
+        surface.RemoveData();
+
         placedRooms.Clear();
-
-        for (int i = 0; i < placedWalls.Count; i++)
-        {
-            DestroyImmediate(placedWalls[i]);
-        }
         placedWalls.Clear();
-
         openConnectors.Clear();
         allRooms.Clear();
     }

@@ -4,6 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - startRoom: {fileID: 2105365516081239035, guid: 80f7fe6b03387ca4793c701083d11649, type: 3}
   - roomEmpty: {fileID: 6051276799847318980, guid: 787748ea9fb74a44e812a9727720cc72, type: 3}
   - gangH: {fileID: 3087431464187340302, guid: fd9d7b564d311e04e95b2a4f04db5264, type: 3}
   - gangV: {fileID: 2385229705322547710, guid: cc957bf252ba2f54ab50760312f228ee, type: 3}
@@ -15,7 +16,8 @@ MonoImporter:
   - wallSouth: {fileID: 4085861346501935998, guid: a9939140a61d4e04b9ac635a3af2229f, type: 3}
   - wallEast: {fileID: 7949108226553918290, guid: d6c2cf1b6d7f55c44b37ffbdef2e1d0d, type: 3}
   - wallWest: {fileID: 6372596043558089325, guid: 708aca4e326195a43943035633aad665, type: 3}
-  - wallPrefab: {fileID: 4476321035352832073, guid: cef3a0c320a4b2a43933395d0afffd6e, type: 3}
+  - wallPrefab: {fileID: 8505737946178050911, guid: cef3a0c320a4b2a43933395d0afffd6e, type: 3}
+  - dungeonParent: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

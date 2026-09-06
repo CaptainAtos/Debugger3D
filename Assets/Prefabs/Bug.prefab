@@ -63,7 +63,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.2
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2563947758461354369
 MonoBehaviour:
@@ -79,6 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   animator: {fileID: 8972755427315347663}
+  maxHealth: 100
+  damage: 10
   chaseRange: 8
   attackRange: 1.5
   attackCooldown: 1.5
@@ -87,7 +89,7 @@ MonoBehaviour:
   patrolWaitTime: 2
   swarmRadius: 6
   swarmPullStrength: 0.5
-  fallSpeed: 5
+  fallSpeed: 8
 --- !u!195 &4070876267274679526
 NavMeshAgent:
   m_ObjectHideFlags: 0

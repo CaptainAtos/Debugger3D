@@ -36,6 +36,11 @@ public class DungoenGenarateEditorTool : EditorWindow
             targetGenerator.GameManager(seed);
         }
 
+        if (GUILayout.Button("Delete Dungeon"))
+        {
+            targetGenerator.ClearDungeon();
+        }
+
         EditorGUILayout.HelpBox("Sollte ein passender Seed gefunden werden, notieren und manuell ins den DungeonGenerator übertragen", MessageType.Info);
     }
 }
