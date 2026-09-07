@@ -9,6 +9,8 @@ public class ServerLEDController : MonoBehaviour, IInteractable
     [SerializeField] private float minFlickerInterval = 0.05f;
     [SerializeField] private float maxFlickerInterval = 0.4f;
 
+    [SerializeField] private ParticleSystem sparkEffect;
+
     private Renderer[] leds;
     private bool isActive = false;
 
@@ -66,5 +68,15 @@ public class ServerLEDController : MonoBehaviour, IInteractable
         if (isActive)
             OnActivated?.Invoke();
         return true;
+    }
+
+    public void PlaySparks()
+    {
+        sparkEffect.Play();
+    }
+
+    public void StopSparks()
+    {
+        sparkEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 }

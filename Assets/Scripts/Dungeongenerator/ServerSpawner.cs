@@ -38,6 +38,30 @@ public class ServerSpawner : MonoBehaviour
         roundManager.OnServerActivated();
     }
 
+    public void PlayOutageSparks()
+    {
+        foreach (GameObject server in activeServers)
+        {
+            if (server == null) continue;
+
+            ServerLEDController led = server.GetComponentInChildren<ServerLEDController>();
+            if (led != null)
+                led.PlaySparks();
+        }
+    }
+
+    public void StopOutageSparks()
+    {
+        foreach (GameObject server in activeServers)
+        {
+            if (server == null) continue;
+
+            ServerLEDController led = server.GetComponentInChildren<ServerLEDController>();
+            if (led != null)
+                led.StopSparks();
+        }
+    }
+
     private void ClearCurrentServers()
     {
         foreach (GameObject server in activeServers)

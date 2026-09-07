@@ -49,6 +49,7 @@ public class RoundManager : MonoBehaviour
         bugSpawner.StartSpawning(currentRound - 1);
         powerSwitch.ResetLever();
         CeilingLampFlicker.FlickerAll();
+        serverSpawner.PlayOutageSparks();
 
         if (StartRoomExitTrigger.Instance != null)
         {
@@ -64,6 +65,7 @@ public class RoundManager : MonoBehaviour
     public void OnSwitchPressed()
     {
         CeilingLampFlicker.StopAll();
+        serverSpawner.StopOutageSparks();
         lampDisplay.SetRoundComplete(currentRound - 1);
 
         if (currentRound < 3)

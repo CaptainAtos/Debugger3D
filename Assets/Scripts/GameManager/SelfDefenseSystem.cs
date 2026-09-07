@@ -4,6 +4,7 @@ using UnityEngine;
 public class SelfDefenseSystem : MonoBehaviour
 {
     [SerializeField] private float gasCountdownDuration = 60f;
+    [SerializeField] private PlayerHealth playerHealth;
 
     public static SelfDefenseSystem Instance { get; private set; }
 
@@ -13,6 +14,9 @@ public class SelfDefenseSystem : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        if (playerHealth == null)
+            playerHealth = FindFirstObjectByType<PlayerHealth>();
     }
 
     public void Trigger()
@@ -57,13 +61,14 @@ public class SelfDefenseSystem : MonoBehaviour
 
     private void FillRoomsWithGas()
     {
-        // TODO: tödliches Gas in allen Räumen anzeigen + Spieler töten/Game Over auslösen
         Debug.Log("Zeit abgelaufen - die Räume füllen sich mit tödlichem Gas. Game Over.");
+
+        if (playerHealth != null)
+            playerHealth.Die();
     }
 
     private void WinGame()
     {
-        // TODO: Sieg-Screen/Übergang einbauen
         Debug.Log("Rechtzeitig im Start Room angekommen - gewonnen!");
     }
 }

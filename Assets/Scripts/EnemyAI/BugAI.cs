@@ -187,10 +187,15 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
             Die();
     }
 
-    public void Die() 
+    public void Die()
     {
+        agent.enabled = false;
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+            col.enabled = false;
+
         animator.SetTrigger("Die");
-            Destroy(gameObject);
+        Destroy(gameObject, 1f);
     }
 
     public void Initialize(BugDifficultyTier tier)

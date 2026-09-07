@@ -6,6 +6,8 @@ public class StartRoomExitTrigger : MonoBehaviour
 
     private bool isArmed = false;
 
+    public event System.Action OnWin;
+
     private void Awake()
     {
         Instance = this;
@@ -27,5 +29,7 @@ public class StartRoomExitTrigger : MonoBehaviour
         {
             SelfDefenseSystem.Instance.PlayerReachedExit();
         }
+
+        OnWin?.Invoke();
     }
 }
