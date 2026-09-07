@@ -82,7 +82,7 @@ MonoBehaviour:
   maxHealth: 100
   damage: 10
   chaseRange: 8
-  attackRange: 1.5
+  attackRange: 2
   attackCooldown: 1.5
   loseChaseMultiplier: 1.5
   patrolRadius: 10

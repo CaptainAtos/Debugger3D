@@ -23,10 +23,13 @@ public class GameStateManager : MonoBehaviour
 
         playerHealth.OnDeath += ShowFailScreen;
         winTrigger.OnWin += ShowWinScreen;
+
+        Debug.Log("GameStateManager: Start() fertig, winTrigger = " + winTrigger.name + " (InstanceID " + winTrigger.GetInstanceID() + ")");
     }
 
     private void ShowWinScreen()
     {
+        Debug.Log("GameStateManager.ShowWinScreen() wurde aufgerufen");
         winScreenPanel.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
