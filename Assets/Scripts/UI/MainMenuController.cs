@@ -11,6 +11,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private GameObject howToPlayPanel;
 
     [Header("Optionen")]
     [SerializeField] private AudioMixer audioMixer;
@@ -20,6 +21,7 @@ public class MainMenuController : MonoBehaviour
     {
         if (optionsPanel != null) { optionsPanel.SetActive(false); }
         if (creditsPanel != null) { creditsPanel.SetActive(false); }
+        if (howToPlayPanel != null) { howToPlayPanel.SetActive(false); }
 
         if (volumeSlider != null)
         {
@@ -52,6 +54,16 @@ public class MainMenuController : MonoBehaviour
     public void OnCloseCreditsPressed()
     {
         creditsPanel.SetActive(false);
+    }
+
+    public void OnHowToPlayPressed()
+    {
+        howToPlayPanel.SetActive(true);
+    }
+
+    public void OnCloseHowToPlayPressed()
+    {
+        howToPlayPanel.SetActive(false);
     }
 
     public void OnQuitPressed()

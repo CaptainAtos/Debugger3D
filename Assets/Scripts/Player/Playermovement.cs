@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float interactRange = 3f;
+    [SerializeField] private GameObject interactPromptPanel;
 
     public float moveSpeed = 8f;
     public float sprintSpeed = 14f;
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private float verticalVelocity = 0f;
+    private IInteractable currentInteractable;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        UpdateInteractTarget();
         TryInteract();
 
         float inputX = Input.GetAxisRaw("Horizontal");
@@ -49,24 +52,33 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(finalMove * Time.deltaTime);
     }
 
+    private void UpdateInteractTarget()
+    {
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        IInteractable hitInteractable = null;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
+        {
+            hitInteractable = hit.collider.GetComponentInParent<IInteractable>();
+            if (hitInteractable == null)
+            {
+                hitInteractable = hit.collider.GetComponentInChildren<IInteractable>();
+            }
+        }
+
+        currentInteractable = (hitInteractable != null && hitInteractable.IsInteractable) ? hitInteractable : null;
+
+        if (interactPromptPanel != null)
+        {
+            interactPromptPanel.SetActive(currentInteractable != null);
+        }
+    }
+
     private void TryInteract()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null)
         {
-            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
-            {
-                IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
-                if (interactable == null)
-                {
-                    interactable = hit.collider.GetComponentInChildren<IInteractable>();
-                }
-                if (interactable != null && interactable.IsInteractable)
-                {
-                    interactable.Interact();
-                }
-            }
+            currentInteractable.Interact();
         }
     }
 }
