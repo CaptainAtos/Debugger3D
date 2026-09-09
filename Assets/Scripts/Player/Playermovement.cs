@@ -7,9 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float interactRange = 3f;
     [SerializeField] private GameObject interactPromptPanel;
 
-    public float moveSpeed = 8f;
-    public float sprintSpeed = 14f;
-    public float gravity = -20f;
+    [SerializeField] private float moveSpeed = 8f;
+    [SerializeField] private float sprintSpeed = 14f;
+    [SerializeField] private float gravity = -20f;
 
     private CharacterController controller;
     private float verticalVelocity = 0f;
@@ -18,6 +18,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+    }
+
+    void OnDisable()
+    {
+        if (interactPromptPanel != null)
+        {
+            interactPromptPanel.SetActive(false);
+        }
     }
 
     void Update()
@@ -66,7 +74,14 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        currentInteractable = (hitInteractable != null && hitInteractable.IsInteractable) ? hitInteractable : null;
+        if (hitInteractable != null && hitInteractable.IsInteractable)
+        {
+            currentInteractable = hitInteractable;
+        }
+        else
+        {
+            currentInteractable = null;
+        }
 
         if (interactPromptPanel != null)
         {
@@ -81,4 +96,4 @@ public class PlayerMovement : MonoBehaviour
             currentInteractable.Interact();
         }
     }
-}
+}

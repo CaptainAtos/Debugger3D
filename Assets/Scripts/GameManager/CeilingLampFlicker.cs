@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CeilingLampFlicker : MonoBehaviour
@@ -10,8 +9,6 @@ public class CeilingLampFlicker : MonoBehaviour
     [SerializeField] private Material unlitMaterial;
     [SerializeField] private float minFlickerInterval = 0.05f;
     [SerializeField] private float maxFlickerInterval = 0.3f;
-
-    private static readonly List<CeilingLampFlicker> activeLamps = new List<CeilingLampFlicker>();
 
     private Coroutine flickerRoutine;
     private bool isOn = true;
@@ -34,33 +31,7 @@ public class CeilingLampFlicker : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        activeLamps.Add(this);
-    }
-
-    private void OnDisable()
-    {
-        activeLamps.Remove(this);
-    }
-
-    public static void FlickerAll()
-    {
-        foreach (CeilingLampFlicker lamp in activeLamps)
-        {
-            lamp.PlayFlicker();
-        }
-    }
-
-    public static void StopAll()
-    {
-        foreach (CeilingLampFlicker lamp in activeLamps)
-        {
-            lamp.StopFlicker();
-        }
-    }
-
-    private void PlayFlicker()
+    public void PlayFlicker()
     {
         if (lampLight == null)
         {
@@ -74,7 +45,7 @@ public class CeilingLampFlicker : MonoBehaviour
         flickerRoutine = StartCoroutine(FlickerRoutine());
     }
 
-    private void StopFlicker()
+    public void StopFlicker()
     {
         if (flickerRoutine != null)
         {
@@ -107,7 +78,14 @@ public class CeilingLampFlicker : MonoBehaviour
 
         if (lampRenderer != null && litMaterial != null && unlitMaterial != null)
         {
-            lampRenderer.sharedMaterial = state ? litMaterial : unlitMaterial;
+            if (state)
+            {
+                lampRenderer.sharedMaterial = litMaterial;
+            }
+            else
+            {
+                lampRenderer.sharedMaterial = unlitMaterial;
+            }
         }
     }
 }

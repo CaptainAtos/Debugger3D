@@ -7,18 +7,12 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float fireRate = 0.05f;
-
-    private float fireTimer = 0f;
 
     void Update()
     {
-        fireTimer += Time.deltaTime;
-
-        if (Input.GetMouseButtonDown(0) && fireTimer >= fireRate)
+        if (Input.GetMouseButtonDown(0))
         {
             Shoot();
-            fireTimer = 0f;
         }
 
         bool isAiming = Input.GetMouseButton(1);
@@ -29,6 +23,7 @@ public class PlayerShoot : MonoBehaviour
     {
         armsAnimator.SetTrigger("Fire");
         weaponAnimator.SetTrigger("Fire");
+        muzzleFlash.Stop();
         muzzleFlash.Play();
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }

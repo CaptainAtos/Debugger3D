@@ -28,14 +28,9 @@ public class ServerSpawner : MonoBehaviour
             ServerLEDController led = serverInstance.GetComponentInChildren<ServerLEDController>();
             if (led != null)
             {
-                led.OnActivated += HandleServerActivated;
+                led.OnActivated += roundManager.OnServerActivated;
             }
         }
-    }
-
-    private void HandleServerActivated()
-    {
-        roundManager.OnServerActivated();
     }
 
     public void PlayOutageSparks()

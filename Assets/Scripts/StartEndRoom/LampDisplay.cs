@@ -11,7 +11,6 @@ public class LampDisplay : MonoBehaviour
     {
         if (lampIndex < 0 || lampIndex >= lamps.Count)
         {
-            Debug.LogWarning("LampDisplay: ungültiger Lampen-Index " + lampIndex);
             return;
         }
 

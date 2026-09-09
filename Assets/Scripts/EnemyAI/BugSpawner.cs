@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BugSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject bugPrefab;
-    [SerializeField] private string ceilingSpawnerName = "CeilingSpawner";
     [SerializeField] private BugDifficultyTier[] tiers;
 
     private float timer = 0f;
@@ -27,7 +25,6 @@ public class BugSpawner : MonoBehaviour
     {
         if (tierIndex < 0 || tierIndex >= tiers.Length)
         {
-            Debug.LogWarning("BugSpawner: ungültiger Tier-Index " + tierIndex);
             return;
         }
 
@@ -47,32 +44,18 @@ public class BugSpawner : MonoBehaviour
         if (swarmIsFull)
             return;
 
-        List<Transform> spawnPoints = FindCeilingSpawnPoints();
-        if (spawnPoints.Count == 0)
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("CeilingSpawner");
+        if (spawnPoints.Length == 0)
         {
-            Debug.Log("BugSpawner: keine CeilingSpawner-Objekte gefunden");
             return;
         }
 
-        Transform chosenSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-        GameObject bugInstance = Instantiate(bugPrefab, chosenSpawnPoint.position, Quaternion.identity);
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+        GameObject chosenSpawnPoint = spawnPoints[randomIndex];
+        GameObject bugInstance = Instantiate(bugPrefab, chosenSpawnPoint.transform.position, Quaternion.identity);
 
         BugAI bugAI = bugInstance.GetComponent<BugAI>();
         if (bugAI != null)
             bugAI.Initialize(currentTier);
-    }
-
-    List<Transform> FindCeilingSpawnPoints()
-    {
-        Transform[] allTransforms = FindObjectsByType<Transform>(FindObjectsSortMode.None);
-        List<Transform> spawnPoints = new List<Transform>();
-
-        for (int i = 0; i < allTransforms.Length; i++)
-        {
-            if (allTransforms[i].name.Contains(ceilingSpawnerName))
-                spawnPoints.Add(allTransforms[i]);
-        }
-
-        return spawnPoints;
     }
 }

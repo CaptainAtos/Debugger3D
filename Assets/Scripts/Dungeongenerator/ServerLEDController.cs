@@ -14,7 +14,10 @@ public class ServerLEDController : MonoBehaviour, IInteractable
     private Renderer[] leds;
     private bool isActive = false;
 
-    public bool IsInteractable => !isActive;
+    public bool IsInteractable
+    {
+        get { return !isActive; }
+    }
 
     public event System.Action OnActivated;
 
@@ -66,7 +69,12 @@ public class ServerLEDController : MonoBehaviour, IInteractable
     {
         SetActive(!isActive);
         if (isActive)
-            OnActivated?.Invoke();
+        {
+            if (OnActivated != null)
+            {
+                OnActivated();
+            }
+        }
         return true;
     }
 
@@ -79,4 +87,4 @@ public class ServerLEDController : MonoBehaviour, IInteractable
     {
         sparkEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
-}
+}

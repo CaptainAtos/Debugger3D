@@ -11,7 +11,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private Button mainMenuButton;
 
     [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private StartRoomExitTrigger winTrigger;
+    [SerializeField] private PlayerMovement playerMovement;
 
     private void Start()
     {
@@ -22,14 +22,11 @@ public class GameStateManager : MonoBehaviour
         mainMenuButton.onClick.AddListener(GoToMainMenu);
 
         playerHealth.OnDeath += ShowFailScreen;
-        winTrigger.OnWin += ShowWinScreen;
-
-        Debug.Log("GameStateManager: Start() fertig, winTrigger = " + winTrigger.name + " (InstanceID " + winTrigger.GetInstanceID() + ")");
     }
 
-    private void ShowWinScreen()
+    public void ShowWinScreen()
     {
-        Debug.Log("GameStateManager.ShowWinScreen() wurde aufgerufen");
+        playerMovement.enabled = false;
         winScreenPanel.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
@@ -44,13 +41,13 @@ public class GameStateManager : MonoBehaviour
         Cursor.visible = true;
     }
 
-    private void Restart()
+    public void Restart()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void GoToMainMenu()
+    public void GoToMainMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");

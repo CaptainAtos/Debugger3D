@@ -4,20 +4,20 @@ using Unity.AI.Navigation;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    public GameObject startRoom;
-    public GameObject roomEmpty;
-    public GameObject gangH;
-    public GameObject gangV;
-    public GameObject eckNE;
-    public GameObject eckNW;
-    public GameObject eckSE;
-    public GameObject eckSW;
-    public GameObject wallNorth;
-    public GameObject wallSouth;
-    public GameObject wallEast;
-    public GameObject wallWest;
-    public GameObject wallPrefab;
-    public Transform dungeonParent;
+    [SerializeField] private GameObject startRoom;
+    [SerializeField] private GameObject roomEmpty;
+    [SerializeField] private GameObject gangH;
+    [SerializeField] private GameObject gangV;
+    [SerializeField] private GameObject eckNE;
+    [SerializeField] private GameObject eckNW;
+    [SerializeField] private GameObject eckSE;
+    [SerializeField] private GameObject eckSW;
+    [SerializeField] private GameObject wallNorth;
+    [SerializeField] private GameObject wallSouth;
+    [SerializeField] private GameObject wallEast;
+    [SerializeField] private GameObject wallWest;
+    [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private Transform dungeonParent;
 
     public int maxRooms = 20;
     public int Seed;
@@ -25,7 +25,6 @@ public class DungeonGenerator : MonoBehaviour
     private List<GameObject> allRooms = new List<GameObject>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private List<Transform> openConnectors = new List<Transform>();
-    private List<GameObject> placedWalls = new List<GameObject>();
 
     void Start()
     {
@@ -160,7 +159,6 @@ public class DungeonGenerator : MonoBehaviour
 
                     GameObject wall = Instantiate(wallPrefab, wallPos + rot * pivotFix, rot);
                     wall.transform.SetParent(dungeonParent);
-                    placedWalls.Add(wall);
                 }
             }
         }
@@ -273,7 +271,6 @@ public class DungeonGenerator : MonoBehaviour
         surface.RemoveData();
 
         placedRooms.Clear();
-        placedWalls.Clear();
         openConnectors.Clear();
         allRooms.Clear();
     }

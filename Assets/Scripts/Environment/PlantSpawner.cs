@@ -7,7 +7,7 @@ public class PlantSpawner : MonoBehaviour
 
     void Start()
     {
-        float roll = Random.value;
+        float roll = Random.Range(0f, 1f);
         if (roll > spawnChance)
         {
             return;

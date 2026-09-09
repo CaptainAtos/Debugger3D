@@ -18,7 +18,7 @@ MonoImporter:
   - wallWest: {fileID: 6372596043558089325, guid: 708aca4e326195a43943035633aad665, type: 3}
   - wallPrefab: {fileID: 8505737946178050911, guid: cef3a0c320a4b2a43933395d0afffd6e, type: 3}
   - dungeonParent: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: 100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

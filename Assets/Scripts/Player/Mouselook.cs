@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public Transform cameraTransform;
-    public float mouseSensitivity = 2f;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private float mouseSensitivity = 2f;
 
     private float verticalRotation = 0f;
 

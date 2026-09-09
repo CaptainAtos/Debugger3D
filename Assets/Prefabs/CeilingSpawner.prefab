@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1488076186441085902}
   m_Layer: 0
   m_Name: CeilingSpawner
-  m_TagString: Untagged
+  m_TagString: CeilingSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

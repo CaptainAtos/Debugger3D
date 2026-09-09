@@ -7,8 +7,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IKillable
     private float currentHealth;
     private bool isDead = false;
 
-    public float CurrentHealth => currentHealth;
-    public float MaxHealth => maxHealth;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+    }
+
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+    }
 
     public event System.Action OnDeath;
 
@@ -34,7 +41,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IKillable
         if (movement != null)
             movement.enabled = false;
 
-        Debug.Log("Player ist gestorben - Game Over");
-        OnDeath?.Invoke();
+        if (OnDeath != null)
+        {
+            OnDeath();
+        }
     }
 }

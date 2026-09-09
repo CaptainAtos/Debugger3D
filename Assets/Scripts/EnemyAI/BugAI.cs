@@ -5,7 +5,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
 {
     public enum State { Fall, Patrol, Chase, Attack }
 
-    [SerializeField] private State currentState = State.Patrol;
+    private State currentState = State.Patrol;
     [SerializeField] private Animator animator;
 
     [SerializeField] private float maxHealth = 100;
@@ -44,9 +44,6 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
         currentHealth = maxHealth;
         spawnPosition = transform.position;
 
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
-
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         if (BugSwarmManager.Instance != null)
@@ -66,7 +63,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (animator != null && agent.enabled)
+        if (agent.enabled)
         {
             bool isMoving = agent.velocity.sqrMagnitude > movementThreshold;
             animator.SetBool("IsMoving", isMoving);
@@ -119,7 +116,6 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
         }
         else if (fallDistance > maxFallDistance)
         {
-            Debug.Log(gameObject.name + ": kein Boden gefunden, breche Fallen ab");
             LandAndStartPatrol();
         }
     }
@@ -172,8 +168,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
 
     void Attack()
     {
-        if (animator != null)
-            animator.SetTrigger("Attack");
+        animator.SetTrigger("Attack");
 
         IDamageable playerDamageable = player.GetComponent<IDamageable>();
         if (playerDamageable != null)
