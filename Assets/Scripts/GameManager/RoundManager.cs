@@ -48,6 +48,15 @@ public class RoundManager : MonoBehaviour
             timerText.gameObject.SetActive(false);
             powerSwitch.ResetLever();
         }
+        
+        if (currentRound == 3 && switchTimerRunning)
+        {
+            BugAI[] allBugs = FindObjectsByType<BugAI>(FindObjectsSortMode.None);
+            for (int i = 0; i < allBugs.Length; i++)
+            {
+                allBugs[i].SetState(BugAI.State.Chase);
+            }
+        }
     }
 
     public void StartGame()
@@ -137,4 +146,5 @@ public class RoundManager : MonoBehaviour
             door.Unlock();
         }
     }
+
 }

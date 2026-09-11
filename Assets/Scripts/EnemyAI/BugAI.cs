@@ -9,7 +9,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
     [SerializeField] private Animator animator;
 
     [SerializeField] private float maxHealth = 100;
-                     private float currentHealth;
+    private float currentHealth;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float chaseRange = 8f;
     [SerializeField] private float attackRange = 1f;
@@ -30,6 +30,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
 
     private Transform player;
     private NavMeshAgent agent;
+    private float bugSpeed;
     private float waitTimer = 0f;
     private float attackTimer = 0f;
     private float fallDistance = 0f;
@@ -123,6 +124,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
     void LandAndStartPatrol()
     {
         agent.enabled = true;
+        agent.speed = bugSpeed;
         agent.Warp(transform.position);
         currentState = State.Patrol;
         PickNewPatrolPoint();
@@ -175,7 +177,7 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
             playerDamageable.TakeDamage(damage);
     }
 
-    public void TakeDamage(float dmg) 
+    public void TakeDamage(float dmg)
     {
         currentHealth -= dmg;
         if (currentHealth <= 0)
@@ -198,7 +200,12 @@ public class BugAI : MonoBehaviour, IDamageable, IKillable
         maxHealth = tier.health;
         currentHealth = maxHealth;
         damage = tier.damage;
-        agent.speed = tier.speed;
+        bugSpeed = tier.speed;
         transform.localScale = Vector3.one * tier.scale;
+    }
+
+    public void SetState(State newState)
+    {
+        currentState = newState;
     }
 }

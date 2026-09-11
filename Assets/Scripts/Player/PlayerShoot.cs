@@ -7,12 +7,14 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private AudioSource shootSound;
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Shoot();
+            shootSound.PlayOneShot(shootSound.clip);
         }
 
         bool isAiming = Input.GetMouseButton(1);

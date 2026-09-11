@@ -24,12 +24,15 @@ public class DungoenGenarateEditorTool : EditorWindow
         }
 
         seed = EditorGUILayout.IntField("Seed", seed);
-        targetGenerator.maxRooms = EditorGUILayout.IntField("Max Rooms", targetGenerator.maxRooms);
+        targetGenerator.maxRooms = EditorGUILayout.IntSlider("Max Rooms", targetGenerator.maxRooms, 20, 100);
 
         if (GUILayout.Button("Zufälligen Seed würfeln"))
         {
-            seed = Random.Range(0, int.MaxValue);
+            targetGenerator.seed = Random.Range(0, int.MaxValue);
+            seed = targetGenerator.seed;
         }
+
+        EditorGUILayout.HelpBox(" Alle Daten werden mit dem Dungeongenerator.cs synchronisiert\n Keine Manuelle Übernahme nötig", MessageType.Info);
 
         if (GUILayout.Button("Generate"))
         {
@@ -40,7 +43,5 @@ public class DungoenGenarateEditorTool : EditorWindow
         {
             targetGenerator.ClearDungeon();
         }
-
-        EditorGUILayout.HelpBox("Sollte ein passender Seed gefunden werden, notieren und manuell ins den DungeonGenerator übertragen", MessageType.Info);
     }
 }

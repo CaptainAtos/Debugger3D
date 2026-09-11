@@ -20,7 +20,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private Transform dungeonParent;
 
     public int maxRooms = 20;
-    public int Seed;
+    public int seed;
 
     private List<GameObject> allRooms = new List<GameObject>();
     private List<GameObject> placedRooms = new List<GameObject>();
@@ -28,7 +28,7 @@ public class DungeonGenerator : MonoBehaviour
 
     void Start()
     {
-        GameManager(Seed);
+        GameManager(seed);
     }
     public void GameManager(int seed) 
     {
@@ -216,7 +216,6 @@ public class DungeonGenerator : MonoBehaviour
 
         return count > 1;
     }
-
 
     Transform GetConnector(GameObject room, string direction)
     {
